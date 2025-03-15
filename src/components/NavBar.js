@@ -30,6 +30,9 @@ const NavBar = () => {
           <Link className="nav-link" to={'/user'}>User</Link>
         </li>
         <li className="nav-item">
+          <Link className="nav-link" to='/creategroup'>Create Group</Link>
+        </li>
+        <li className="nav-item">
           <Link className="nav-link" onClick={handleLogOut} to='/login'>Logout</Link>
         </li>
           </>:
@@ -42,6 +45,7 @@ const NavBar = () => {
         </li>
           </>
         }
+        
        
         
       </ul>

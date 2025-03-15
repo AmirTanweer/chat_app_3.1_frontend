@@ -7,7 +7,7 @@ const BASE_URL = 'http://localhost:5000/';
 
 const ChatState = ({ children }) => {
     
-    
+    const [listOfUsersForCreateGroup,setListOfUsersForCreateGroup]=useState([]);
     const [allChatsOfUser, setAllChatsOffUser] = useState([]);
     const [authToken, setAuthToken] = useState('' || sessionStorage.getItem('token'));  // ✅ Ensure token is always available
     
@@ -31,6 +31,7 @@ const ChatState = ({ children }) => {
             });
             console.log('✅ All chats -> ', response.data);
             setAllChatsOffUser(response.data);
+            return response.data
         } catch (error) {
             console.error("❌ Error fetching chat details:", error.response?.data || error.message);
         }
@@ -62,11 +63,36 @@ const ChatState = ({ children }) => {
             console.error("❌ Error fetching chat details:", error.response?.data || error.message);
         }
     }
+  const createGroupChat=async(chatName,users)=>{
+    if (!authToken) {
+        console.error('❌ authToken not found. Unable to fetch create group chat.');
+        return;
+    }
+    try {
+        console.log("🟢 Create group Chat token:", authToken); // Debugging
+        const bodyRequest={
+            'chatName':chatName,
+            'users':users
+        }
+        const response = await axios.post(`${BASE_URL}api/chat/group`,bodyRequest, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`, // ✅ Correctly sending token
+            },
+        });
 
+        console.log('✅ Created group chat -> ', response.data);
+        return response.data
+        
+       
+    } catch (error) {
+        console.error("❌ Error Creating group chat:", error.response?.data || error.message);
+    }
+}
     
 
     return (
-        <ChatContext.Provider value={{ getAllChats,setAuthToken ,allChatsOfUser,fetchOrCreateChat}}>
+        <ChatContext.Provider value={{ getAllChats,setAuthToken ,allChatsOfUser,fetchOrCreateChat,listOfUsersForCreateGroup,setListOfUsersForCreateGroup,createGroupChat}}>
             {children}
         </ChatContext.Provider>
     );

@@ -4,6 +4,7 @@ import Groups from '../ChatComponents/Groups';
 import Friends from '../ChatComponents/Friends';
 import SocketContext from '../context/Socket/SocketContext';
 import ChatContext from '../context/Chat/ChatContext';
+import CreateGroup from '../pages/CreateGroup';
 
 const SideBar = () => {
   const { allChatsOfUser } = useContext(ChatContext);
@@ -14,6 +15,8 @@ const SideBar = () => {
   const groups = allChatsOfUser.filter((chat) => chat.isGroupChat);
   
   const [selectedChatId, setSelectedChatId] = useState(null);
+  
+
   return (
     <div 
       className="sidebar-container" 
@@ -32,9 +35,11 @@ const SideBar = () => {
       </div>
 
       <div className="p-3">
-        <h3>Friends</h3>
+       
+            <h3>Friends</h3>
         {friends.map((friend) => (
           <Friends key={friend._id} searchQuery={searchQuery} friend={friend} isSelected={selectedChatId === friend._id} setSelectedFrndId={setSelectedChatId} />
+        
         ))}
       </div>
 

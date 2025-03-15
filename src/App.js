@@ -5,6 +5,7 @@ import NavBar from './components/NavBar';
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 import User from './pages/User';
+import CreateGroup from './pages/CreateGroup';
 const App = () => {
   return (
    
@@ -15,6 +16,7 @@ const App = () => {
       <Route path='/signup' element={<SignUp/>}/>
       <Route path='/login' element={<Login/>}/>
        <Route path='/user' element={<User/>}/>
+       <Route path='/creategroup' element={<CreateGroup/>}/>
      </Routes>
     </Router>
   )

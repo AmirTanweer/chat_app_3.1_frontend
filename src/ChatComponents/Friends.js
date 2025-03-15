@@ -11,10 +11,10 @@ const Friends = ({ friend,isSelected,setSelectedFrndId ,searchQuery}) => {
   const [isHovered, setIsHovered] = useState(false); // ✅ New state for hover effect
   const loggedInUserId = loggedInUserInformation?._id;
   const otherUser = friend?.users?.find((user) => user._id !== loggedInUserId);
-   
+  
   // Check if `otherUser` is online
   const isOnline = onlineUsers.includes(otherUser?._id);
-  
+
   const isMatch = otherUser?.name?.toLowerCase().includes(searchQuery.toLowerCase());
   if (!isMatch) return null; // ❗ Prevent rendering non-matching friends
   // console.log('otheruser -> ', otherUser?.name);
