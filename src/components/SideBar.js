@@ -45,7 +45,12 @@ const SideBar = () => {
 
       <div className="p-3">
         <h3>Groups</h3>
-        <Groups />
+        {
+          groups.map((group) => (
+            <Groups key={group._id} searchQuery={searchQuery} group={group} isSelected={selectedChatId === group._id} setSelectedGroupId={setSelectedChatId} />
+          ))
+        }
+        
       </div>
     </div>
   );

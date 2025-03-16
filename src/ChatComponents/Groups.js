@@ -1,8 +1,37 @@
-import React from 'react'
+import React,{useState} from 'react'
 
-const Groups = () => {
+const Groups = ({searchQuery ,group,isSelected,setSelectedGroupId}) => {
+  const [isHovered, setIsHovered] = useState(false); // ✅ New state for hover effect
+
+  const handleSelectChat = () => {}
   return (
-    <div>Groups</div>
+    <div  onClick={handleSelectChat } 
+    onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="my-3 p-2"
+      style={{
+        backgroundColor: isSelected || isHovered ? '#e3f2fd' : 'white',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '10px',
+        cursor: 'pointer',
+        borderRadius: '8px', // For better UI
+        transition: 'background-color 0.3s ease-in-out' // Smooth hover effect
+      }}  >
+      <div style={{ position: 'relative' }}>
+        <img
+          src="/group_icon.png"
+          alt="User Image"
+          style={{  width: '40px' }}
+        />
+       
+      </div>
+      <div>
+        <p style={{ margin: 0 ,fontWeight:'bold'}}>{group?.chatName || 'Unknown Group'}</p>
+       
+        
+      </div>
+    </div>
   )
 }
 
