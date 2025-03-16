@@ -89,10 +89,34 @@ const ChatState = ({ children }) => {
         console.error("❌ Error Creating group chat:", error.response?.data || error.message);
     }
 }
-    
+const fetchGroupChat=async(chatId)=>{
+  if (!authToken) {
+      console.error('❌ authToken not found. Unable to fetch create group chat.');
+      return;
+  }
+  try {
+      console.log("🟢 Fetch group Chat token:", authToken); // Debugging
+      
+        
+        const response = await axios.get(`${BASE_URL}api/chat/groupfetch/${chatId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${authToken}`, // ✅ Correctly sending token
+            },
+        });
+
+        console.log('✅ Fetched group chat -> ', response.data);
+        return response.data
+  }
+  catch (error) {
+    console.error("❌ Error Creating group chat:", error.response?.data || error.message);
+}
+
+
+}
 
     return (
-        <ChatContext.Provider value={{ getAllChats,setAuthToken ,allChatsOfUser,fetchOrCreateChat,listOfUsersForCreateGroup,setListOfUsersForCreateGroup,createGroupChat}}>
+        <ChatContext.Provider value={{ getAllChats,setAuthToken ,allChatsOfUser,fetchOrCreateChat,listOfUsersForCreateGroup,setListOfUsersForCreateGroup,createGroupChat,fetchGroupChat}}>
             {children}
         </ChatContext.Provider>
     );

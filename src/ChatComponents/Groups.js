@@ -1,9 +1,21 @@
 import React,{useState} from 'react'
-
+import ChatContext from '../context/Chat/ChatContext';
+import {useContext} from 'react';
+import MessageContext from '../context/Message/MessageContext';
+import SocketContext from '../context/Socket/SocketContext';
 const Groups = ({searchQuery ,group,isSelected,setSelectedGroupId}) => {
   const [isHovered, setIsHovered] = useState(false); // ✅ New state for hover effect
-
-  const handleSelectChat = () => {}
+   const {fetchGroupChat}=useContext(ChatContext);
+   const {fetchAllMessages}=useContext(MessageContext);
+   const {setSelectedChatId,setMessages}=useContext(SocketContext);
+  const handleSelectChat = async() => {
+    setSelectedGroupId(group?._id)
+   fetchGroupChat(group?._id);
+   const messagesFromServer= await fetchAllMessages(group?._id)
+  console.log("messages From Server -> ", messagesFromServer);
+  setSelectedChatId(group?._id)
+  setMessages(messagesFromServer)
+  }
   return (
     <div  onClick={handleSelectChat } 
     onMouseEnter={() => setIsHovered(true)}

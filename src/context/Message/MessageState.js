@@ -8,6 +8,7 @@ const MessageState = ({ children }) => {
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [selectedChatId, setSelectedChatId] = useState(null);
 const fetchAllMessages=async(chatId)=>{
+  console.log('group id ->',chatId)
   setSelectedChatId(chatId);
   if(!authToken){
     console.log('❌ Token not found. Unable to fetch messages.');
