@@ -9,6 +9,7 @@ const AuthState=({children})=>{
 const [token,setToken]=useState(sessionStorage.getItem('token') || '')
 const [isUserLoggedIn,setIsUserLoggedIn]=useState(!!token)
 const [loggedInUserInformation,setLoggedInUserInformation]=useState({})
+const [usersWithoutChats,setUsersWithoutChats]=useState([])
     const Login=async(credentials)=>{
         try {
             const response = await axios.post(`${BASE_URL}api/auth/login`, {
@@ -61,6 +62,8 @@ const [loggedInUserInformation,setLoggedInUserInformation]=useState({})
             
             console.log("✅ User details received:", response.data.user);
             setLoggedInUserInformation(response.data.user)
+            
+            
             return response.data.user
           } catch (error) {
             console.error("❌ Error fetching user details:", error.response?.data || error.message);
@@ -73,7 +76,37 @@ const [loggedInUserInformation,setLoggedInUserInformation]=useState({})
         sessionStorage.removeItem('token')
         
     }
-  return(  <AuthContext.Provider value={{Login,SignUp,getUserDetails,token,logOut,loggedInUserInformation}}>
+
+    const getUsersWithoutChats=async()=>{
+     let storedToken=sessionStorage.getItem('token');
+      
+        if (!storedToken) {
+          console.warn("⚠️ No token found for fetching user details.");
+          return null;
+        }
+      try{
+          
+      
+    
+          console.log("🟢 Fetching user details withOut chats with token:", storedToken); // Debugging
+          const response = await axios.get(`${BASE_URL}api/auth/userswithoutchat`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
+          
+          console.log("✅ User details without chats received:", response.data.usersWithoutChats);
+          setUsersWithoutChats(response.data.usersWithoutChat)
+          
+          
+          return response.data.usersWithoutChats
+      } catch (error) {
+        console.error("❌ Error fetching users without chats:", error.response?.data || error.message);
+        return null;
+      }
+    }
+  return(  <AuthContext.Provider value={{Login,SignUp,getUserDetails,token,logOut,loggedInUserInformation,getUsersWithoutChats,usersWithoutChats}}>
     {children}
     </AuthContext.Provider>
   )

@@ -8,6 +8,12 @@ const Groups = ({searchQuery ,group,isSelected,setSelectedGroupId}) => {
    const {fetchGroupChat}=useContext(ChatContext);
    const {fetchAllMessages}=useContext(MessageContext);
    const {setSelectedChatId,setMessages}=useContext(SocketContext);
+
+  
+
+  const isMatch = group?.chatName?.toLowerCase().includes(searchQuery.toLowerCase());
+  if (!isMatch) return null; // ❗ Prevent rendering non-matching friends
+
   const handleSelectChat = async() => {
     setSelectedGroupId(group?._id)
    fetchGroupChat(group?._id);

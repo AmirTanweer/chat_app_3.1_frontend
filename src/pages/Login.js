@@ -31,6 +31,7 @@ const Login = () => {
           
 
         const userDetails = await getUserDetails();
+        
         await setUserData(userDetails);
         await getAllChats(res.token);
 
