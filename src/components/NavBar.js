@@ -5,8 +5,9 @@ import SocketContext from '../context/Socket/SocketContext'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 const NavBar = () => {
-  const {disconnectSocket}= useContext(SocketContext);
+  const {disconnectSocket,selectedChatId}= useContext(SocketContext);
  const {token,logOut}=useContext(AuthContext)
+ console.log('selectedChatId in navbar-> ',selectedChatId)
  const handleLogOut=()=>{
     logOut()
     disconnectSocket()

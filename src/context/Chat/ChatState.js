@@ -10,14 +10,17 @@ const ChatState = ({ children }) => {
     const [listOfUsersForCreateGroup,setListOfUsersForCreateGroup]=useState([]);
     const [allChatsOfUser, setAllChatsOffUser] = useState([]);
     const [authToken, setAuthToken] = useState('' || sessionStorage.getItem('token'));  // ✅ Ensure token is always available
+    const [chatChanged,setChatChanged]=useState(null);
     
-
+  useEffect(()=>{
+    getAllChats(authToken)
+  },[chatChanged])
     
 
     const getAllChats = async (token) => {
         console.log('authToken -> ',authToken)
         if (!token) {
-            console.error('❌ Token not found. Unable to fetch chats.');
+            console.log('❌ Token not found. Unable to fetch chats.');
             return;
         }
         setAuthToken(token);
@@ -56,7 +59,9 @@ const ChatState = ({ children }) => {
             });
 
             console.log('✅ chat between two user -> ', response.data);
+            setChatChanged(response.data);
             return response.data._id
+
             
            
         } catch (error) {

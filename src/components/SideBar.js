@@ -9,23 +9,25 @@ import AuthContext from '../context/Auth/AuthContext';
 
 const SideBar = () => {
   const {getUsersWithoutChats,loggedInUserInformation}=useContext(AuthContext)
-  const { allChatsOfUser } = useContext(ChatContext);
+  const { allChatsOfUser,getAllChats } = useContext(ChatContext);
   const selectedChatIdInSocket = useContext(SocketContext).selectedChatId;
   const [searchQuery, setSearchQuery] = useState('');
   const [usersWithoutChats, setUsersWithoutChats] = useState([]);
-  const friends = allChatsOfUser.filter((chat) => !chat.isGroupChat);
-  const groups = allChatsOfUser.filter((chat) => chat.isGroupChat);
+  const friends = (allChatsOfUser || []).filter((chat) => !chat.isGroupChat);
+  const groups = (allChatsOfUser || []).filter((chat) => chat.isGroupChat);
   
-
+  
+  
  
  
 
   const [selectedChatId, setSelectedChatId] = useState(null || selectedChatIdInSocket);
   
  // Corrected logic: Filter out logged-in user from the list
- const filteredUsersWithoutChats = usersWithoutChats.filter(
-  (user) => user._id !== loggedInUserInformation._id
+const filteredUsersWithoutChats = (usersWithoutChats || []).filter(
+  (user) => user._id !== loggedInUserInformation?._id
 );
+
 console.log('filteredUsersWithoutChats -> ',filteredUsersWithoutChats)
   console.log('selectedChatIdInSocket -> ',selectedChatIdInSocket);
 useEffect(()=>{
@@ -36,6 +38,9 @@ useEffect(()=>{
   getData();
  
 },[])
+
+
+
 console.log('online users without chat with names in sidebar componenet -> ',usersWithoutChats);
   return (
     <div 
@@ -57,7 +62,7 @@ console.log('online users without chat with names in sidebar componenet -> ',use
         <h3 >Users</h3>
         {
           filteredUsersWithoutChats.map((user,index) => (
-            <OnlineUsers key={user?._id || index} user={user} isSelected={selectedChatId === user._id} setSelectedUserId={setSelectedChatId} searchQuery={searchQuery} />
+            <OnlineUsers  usersWithoutChats={usersWithoutChats} setUsersWithoutChats={setUsersWithoutChats}  key={user?._id || index} user={user} isSelected={selectedChatId === user._id} setSelectedUserId={setSelectedChatId} searchQuery={searchQuery} />
           ))}
       </div>
 

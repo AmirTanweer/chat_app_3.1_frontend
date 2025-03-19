@@ -14,16 +14,22 @@ const Home = () => {
 
     useEffect(() => {
         const storedToken = sessionStorage.getItem('token');
-
+        
         if (storedToken) {
             if (!token) {
                 setToken(storedToken); // ✅ Update context token if missing
             }
 
             const autoLogin = async () => {
+                
                 try {
                     const userDetails = await getUserDetails();
                     await setUserData(userDetails);
+
+                    
+               
+
+
                     await getAllChats(storedToken);
                     connectSocket(); // ✅ Connect socket after token and user data are set
                 } catch (error) {
