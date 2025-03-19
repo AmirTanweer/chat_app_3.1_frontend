@@ -10,7 +10,7 @@ import AuthContext from '../context/Auth/AuthContext';
 const SideBar = () => {
   const {getUsersWithoutChats,loggedInUserInformation}=useContext(AuthContext)
   const { allChatsOfUser } = useContext(ChatContext);
-  const { onlineUsers } = useContext(SocketContext);
+  const selectedChatIdInSocket = useContext(SocketContext).selectedChatId;
   const [searchQuery, setSearchQuery] = useState('');
   const [usersWithoutChats, setUsersWithoutChats] = useState([]);
   const friends = allChatsOfUser.filter((chat) => !chat.isGroupChat);
@@ -20,14 +20,14 @@ const SideBar = () => {
  
  
 
-  const [selectedChatId, setSelectedChatId] = useState(null);
+  const [selectedChatId, setSelectedChatId] = useState(null || selectedChatIdInSocket);
   
  // Corrected logic: Filter out logged-in user from the list
  const filteredUsersWithoutChats = usersWithoutChats.filter(
   (user) => user._id !== loggedInUserInformation._id
 );
 console.log('filteredUsersWithoutChats -> ',filteredUsersWithoutChats)
-  
+  console.log('selectedChatIdInSocket -> ',selectedChatIdInSocket);
 useEffect(()=>{
   const getData=async()=>{
     const temp= await getUsersWithoutChats();

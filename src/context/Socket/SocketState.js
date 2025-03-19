@@ -86,7 +86,7 @@ console.log('messages array ->',messages)
 
   return (
     <SocketContext.Provider
-      value={{ connectSocket, setUserData, onlineUsers, sendMessage,disconnectSocket,messages,setMessages ,setSelectedChatId}}
+      value={{ connectSocket, setUserData, onlineUsers, sendMessage,disconnectSocket,messages,setMessages ,setSelectedChatId,selectedChatId}}
     >
       {children}
     </SocketContext.Provider>

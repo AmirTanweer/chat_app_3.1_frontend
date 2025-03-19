@@ -39,7 +39,7 @@ const Home = () => {
     }, []); // ✅ Only runs once on initial render
 
     return (
-        <div className="row">
+        <div className="row" >
             <div className="col-md-4 " style={{ minHeight: '600px' }}>
                 <SideBar />
             </div>

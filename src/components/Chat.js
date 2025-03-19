@@ -6,7 +6,7 @@ import ChatContext from '../context/Chat/ChatContext';
 
 const Chat = () => {
   const { getAllChats } = useContext(ChatContext);
-  const { sendMessage, messages } = useContext(SocketContext);
+  const { sendMessage, messages ,selectedChatId} = useContext(SocketContext);
   const { loggedInUserInformation } = useContext(AuthContext);
   const loggedInUserId = loggedInUserInformation?._id;
   const [input, setInput] = useState('');
@@ -41,7 +41,13 @@ const Chat = () => {
      <div style={{height:'100vh'}}>
       {/* chat window */}
      <div className="flex-grow-1 overflow-auto p-3" style={{height:'90vh'}}>
+       
       {
+        !selectedChatId ?  (
+          <div className="d-flex justify-content-center align-items-center h-100">
+            <p className="text-muted">Select a chat to start messaging</p>
+          </div>
+        ):
         messages.map((msg,index)=>(
           
           msg?.sender?._id !== loggedInUserId ?
@@ -113,6 +119,7 @@ const Chat = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
+          disabled={!selectedChatId}
         />
         <button onClick={handleSendMessage} type="button" className="btn btn-primary">
           Send
